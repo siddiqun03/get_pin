@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Route } from '../../infra/shared/decorators/route.decorator';
+import { Route } from '../../infra/shared/decorators';
 
 import { User } from './user.entity';
 import { UserService } from './user.service';

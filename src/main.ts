@@ -5,6 +5,7 @@ import { useContainer } from 'class-validator';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ErrorFilter } from './infra/validators';
 import * as dotenv from 'dotenv';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const logging = new Logger('Request Middleware', { timestamp: true });
 
@@ -14,8 +15,6 @@ async function bootstrap() {
     logger: ['log', 'warn', 'error'],
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  await app.listen(process.env?.['PORT'] || 4001);
 
   app.enableCors({
     origin: true,
@@ -43,6 +42,24 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('GRM uz')
+    .setDescription('GET-PIN API description')
+    .setVersion('0.2')
+    .addBearerAuth()
+    .addCookieAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document, {
+    swaggerOptions: {
+      tagsSorter: 'alpha',
+      operationsSorter: 'alpha',
+    },
+  });
+
+  await app.listen(process.env?.['PORT'] || 4001);
 }
 
 bootstrap().then(() => {
