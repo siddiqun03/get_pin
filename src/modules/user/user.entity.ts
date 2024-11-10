@@ -1,8 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Entity('users')
@@ -25,6 +21,27 @@ export class User {
   @Column({ type: 'varchar' })
   password: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  address: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  employer: string;
+
+  @Column('varchar', { nullable: true })
+  job_title: string;
+
+  @Column('varchar')
+  login: string;
+
+  @Column('varchar', { nullable: true })
+  avatar: string;
+
+  @Column('int', { default: 1 })
+  role: number;
+
+  @Column('varchar', { nullable: true })
+  company: string;
+
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -32,11 +49,8 @@ export class User {
   })
   createdAt: string;
 
-  public async hashPassword(password: string): Promise<void> {
-    this.password = await bcrypt.hash(password, 10);
-  }
-
-  public isPasswordValid(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
   }
 }

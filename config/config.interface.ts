@@ -5,6 +5,12 @@ interface IJWT {
   refreshTokenExpiration;
 }
 
+interface MAIL {
+  email: string;
+  password: string;
+  host: string;
+}
+
 interface IDatabase {
   host: string;
   type: string;
@@ -33,4 +39,5 @@ export interface IConfig {
   jwt: IJWT;
   newPasswordBytes: number;
   codeBytes: number;
+  mail: MAIL
 }

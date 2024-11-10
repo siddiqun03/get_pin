@@ -29,7 +29,11 @@ export default (): IConfig => ({
     refreshTokenExpiration: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
     refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
   },
-
+  mail: {
+    host: process.env.EMAIL_HOST,
+    email: process.env.EMAIL_MAIL,
+    password: process.env.EMAIL_PASSWORD,
+  },
   newPasswordBytes: 4,
   codeBytes: 2,
 });
